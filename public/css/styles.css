@@ -1,0 +1,41 @@
+
+body , html{
+    padding: 0;
+    margin:0;
+    background-color: black !important; 
+}
+.box-3{
+    background-color: black;
+    color: white;
+    height: 100vh !important;
+}
+
+.box{
+    background-color: black;
+    color: white;
+    height: 90vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh !important;
+}
+.box-1{
+    padding: 1rem;
+    border-top:1px solid white ;
+    border-bottom:1px solid white ;
+}
+.img{
+    background-color: white;
+    height: 100px;
+    width: 100px;
+    margin: 3rem;
+    border-radius: 100%;
+}
+.password{
+    display: flex;
+    width: 95% !important;
+}
+.eye{
+    width: 20px;
+    height: 20px;
+}

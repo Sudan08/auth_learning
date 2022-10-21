@@ -1,0 +1,41 @@
+<%- include("./partials/header.ejs") -%>
+<div class="box ">
+    <div class="box-1 d-flex justify-content-center align-items-center">
+        <div class="row d-flex flex-row justify-content-center">
+            <div class="col-sm-8 d-flex flex-row justify-content-center">
+                <h1>Register</h1>
+            </div>
+            <form action="/register" class="d-flex justify-content-center flex-column" method="post">
+                <div class="col-sm-12 d-flex flex-column justify-content-center m-3 w-100 ">
+                <label for="name" class="my-4">Name:</label>
+                <input type="text" name="name" id="name" class="form-control" required autocomplete="off">
+                <label for="username" class="my-4">UserName:</label>
+                <input type="text" name="username" id="username" class="form-control" required autocomplete="off">
+                <label for="email" class="my-4">Email</label>
+                <input type="email" name="email" id="email" class="form-control" required autocomplete="off">
+                <label for="password" class="my-4">Password:</label>
+                <div class="d-flex flex-row">
+                <input type="password" name="password" id="password" value="" class="form-control" required autocomplete="off">
+                </div>
+                <label for="confirmPassword" class="my-4">Confirm Password:</label>
+                <div class="d-flex flex-row">
+                <input type="password" name="confirmPassword" value="" id="confirmPassword" class="form-control " required autocomplete="off">
+                </div>
+                </div>
+                <div class="form-check d-flex flex-row">
+                    <input type="checkbox" class="form-check-input mx-2" id="exampleCheck1" required>
+                    <label class="form-check-label" for="exampleCheck1" required>I agree terms and conditions.</label>
+                </div>
+                <div class="d-flex justify-content-center">
+                <button id="submit" onclick="checkPassword()" class="btn btn-outline-light w-50 my-3">
+                    Register
+                </button>
+                </div>
+               
+            </form>
+           
+            
+        </div>
+    </div>
+</div>
+<%- include("./partials/footer.ejs") -%>
