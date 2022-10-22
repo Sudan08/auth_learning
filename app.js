@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
@@ -5,20 +6,25 @@ const {
     restart
 } = require('nodemon');
 
+
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption');
 const app = express();
 
 
 mongoose.connect('mongodb://localhost:27017/userdataDB');
 
-const userSchema = {
+const userSchema = new mongoose.Schema({
     name: String,
     username : String,
     email : String,
     password: String
-}
+});
 
-const userData = mongoose.model('userData',userSchema);
+
+userSchema.plugin(encrypt,{secret:process.env.SECRET,encryptedFields:['password']});
+
+const userData = new mongoose.model('userData',userSchema);
 
 
 app.set('view engine','ejs');
@@ -54,19 +60,24 @@ app.post('/register',(req,res)=>{
         password : password,
     });
     userData.find({},function(err,items){
-        if (items.length === 0){
+        if(err){
+            console.log(err);
+        }
+        else{
+        if (items.length == 0){
             newUser.save();
-        }else{
-        items.forEach(element => {
-            if (element.username === username || element.email === email ){
-                res.send({err:'Already exists'});
-            }else{
-                newUser.save();
-                res.send({status:'Your data added successfully'});
-            }
-        })};
-
+            console.log('saved');
+        }
+    };
     })
+    userData.find({$or:[{username : username },{ email : email}]},function(err,data){
+        if (data.length === 1){
+            console.log('Already exists')
+        }else{
+            newUser.save();
+            console.log('new user added')
+        }
+    });
     
 })
 
