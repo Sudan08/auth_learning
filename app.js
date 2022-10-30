@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const passportLocalMongoose = require('passport-local-mongoose');
+const findOrCreate = require('mongoose-find-or-create')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 
 
 
@@ -33,18 +36,47 @@ const userSchema = new mongoose.Schema({
     name: String,
     username : String,
     email : String,
-    password: String
+    password: String,
+    googleId: String
 });
 
 userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(findOrCreate);
 
 
 const userData = new mongoose.model('userData',userSchema);
 
 passport.use(userData.createStrategy());
 
-passport.serializeUser(userData.serializeUser());
-passport.deserializeUser(userData.deserializeUser());
+passport.serializeUser(function(user, cb) {
+    process.nextTick(function() {
+      return cb(null, {
+        id: user.id,
+        username: user.username,
+        
+      });
+    });
+  });
+  
+  passport.deserializeUser(function(user, cb) {
+    process.nextTick(function() {
+      return cb(null, user);
+    });
+  });
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENTID,
+    clientSecret: process.env.CLIENTSECRET,
+    callbackURL: "http://localhost:3000/auth/google/secret",
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile)
+    userData.findOrCreate({ googleId: profile.id , name:profile.displayName }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
 
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({
@@ -72,6 +104,17 @@ app.get('/main',(req,res)=>{
     }else{
         res.redirect('/login');
     }
+});
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] }));
+
+
+app.get('/auth/google/secret', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/main');
 });
 
 app.post('/register',(req,res)=>{
