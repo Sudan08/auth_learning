@@ -1,5 +1,21 @@
 <%- include("./partials/header.ejs") -%>
 
-<h1>Hello world</h1>
+<div class="d-flex justify-content-center align-items-center box-3">
+    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+        <p class="display-2"> Secret's </p>
+        <img src="https://ncd.ddjnocookie.com/image/eddimages/blog_gallery/Secret-professionnel.png" height="150px" width="150px" style="border-radius: 100%;" alt="img">
+        <% data.forEach(function(user){ %>
+            <% if (user.secret.length == 1){ %>
+                <p class="display-6 m-3"><%= user.secret%></p>
+            <%}else{user.secret.forEach(function(nestedsecret){%>
+                <p class="display-6 m-3"><%= nestedsecret%></p>
+            <%})}%>
+        <%}) %>
+        <div>
+            <a class="btn btn-warning" type="button" href="/">Log out</a>
+            <a class="btn btn-primary" type="button" href="/submit">Submit a Secret</a>
+        </div>
+    </div>
+</div>
 
 <%- include("./partials/footer.ejs") -%>

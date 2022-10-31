@@ -1,0 +1,15 @@
+<%- include("./partials/header.ejs") -%>
+
+<div class="d-flex justify-content-center align-items-center box-3">
+    <div class="d-flex justify-content-center text-center align-items-center w-75 flex-column">
+        <p class="display-2"> Secret's </p>
+        <img src="https://ncd.ddjnocookie.com/image/eddimages/blog_gallery/Secret-professionnel.png" height="150px" width="150px" style="border-radius: 100%;" alt="img">
+        <form class='w-75' action="/submit" method="post">
+            <textarea class="form-control m-4 texta " name='secret' placeholder="Enter your text here"></textarea>
+            <a class="btn btn-warning" type="button" href="/main">Back</a>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<%- include("./partials/footer.ejs") -%>
